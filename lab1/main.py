@@ -32,3 +32,8 @@ def number_ways_to_cut_tree():   # function to count number of ways to cut trees
             for i in range(1, distance + 1):
                 res += n - (m - 1) * i
         return res
+
+
+result = number_ways_to_cut_tree()
+print(f'Result = {result}.')
+
