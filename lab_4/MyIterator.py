@@ -1,29 +1,27 @@
-from check_functions import *
-from random import randint as rand
+from random import randint
+from MyList import *
 
 
-class Iterator:
+class MyIterator:
+    def __init__(self, size, a, b):
+        self.size = size
+        self.a = a
+        self.b = b
+
     def __iter__(self):
         return self
 
-    def __init__(self, size):
-        self.size = size
-        self.element = 0
-
     def __next__(self):
-        if self.element < self.size:
-            self.element += 1
-        for i in range(self.size):
-            self.size -= 1
-            return check_if_numeric(input('Enter a value: '))
-        else:
+        if self.size == 0:
             raise StopIteration
+        self.size -= 1
+        return randint(self.a, self.b)
 
 
 def my_generator(a, b, size):
     if a < b:
-        while size != 0:
-            size -= 1
-            yield rand(a, b)
-    else:
-        print('b should be bigger than a')
+        for _ in range(size):
+            yield randint(a, b)
+    elif a > b:
+        for _ in range(size):
+            yield randint(b, a)

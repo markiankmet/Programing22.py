@@ -1,87 +1,8 @@
-from linked_list import *
+from MyList import LinkedList
+from check_functions import *
 menu_options = {1: 'Enter list by keyboard', 2: 'Random generate list in a certain range', 3: 'Do option 11',
-                4: 'Input by iterator', 5: 'Use generator to list', 6: 'Exit'}
-
-
-def input_from_keyboard():
-        n = check_if_numeric(input('Enter a dimension of list: '))
-        list_ = LinkedList()
-        list_.input_list(n)
-        list_.list_print()
-        question_delete_insert(list_, n)
-
-
-def random_generate():
-        n = check_if_numeric(input('Enter a dimension of list: '))
-        a = check_if_integer(input('Enter a: '))
-        b = check_if_integer(input('Enter b: '))
-        list_ = LinkedList()
-        list_.generate_random_list(n, a, b)
-        list_.list_print()
-        question_delete_insert(list_, n)
-
-
-def option11():
-    n = check_if_numeric(input('Enter a dimension: '))
-    if n != 0:
-        x = LinkedList()
-        y = LinkedList()
-        z = LinkedList()
-        x.input_list(n)
-        y.input_list(n)
-        z.input_list(n)
-        new_list = x.made_kub()
-        max_value, index_max = x.find_max()
-        index_half = (n // 2)
-        k = check_if_integer(input('Enter K: '))
-        if max_value == k and y.is_negative() and index_max < index_half:
-            for i in range(index_max):
-                new_list[i] = pow(new_list[i], 3)
-        print('Vector x:')
-        for i in range(n):
-            print(new_list[i], end=' ')
-        print()
-    else:
-        print('Vectors is empty!')
-
-
-def input_by_iterator():
-    my_list = LinkedList()
-    n = check_if_numeric(input('Enter a dimension: '))
-    my_list.iterate_elements(n)
-    my_list.list_print()
-    question_delete_insert(my_list, n)
-
-
-def generate_by_generator():
-    my_list = LinkedList()
-    n = check_if_numeric(input('Enter a dimension: '))
-    a = check_if_integer(input('Enter a: '))
-    b = check_if_integer(input('Enter b: '))
-    my_list.generate_elements(n, a, b)
-    my_list.list_print()
-    question_delete_insert(my_list, n)
-
-
-def question_delete_insert(arg: LinkedList, arg_n):
-    while True:
-        choice = check_if_numeric(input("1.Delete on k position\n2.Insert in k position\n3.Back\n"))
-        if choice == 1:
-            k = check_if_integer(input("Enter position: "))
-            if check_position(k, arg_n):
-                continue
-            arg.delete_element(k)
-            arg.list_print()
-        if choice == 2:
-            k = check_if_integer(input("Enter position: "))
-            if check_position(k, arg_n):
-                continue
-            to_ad = check_if_integer(input("Enter element: "))
-            arg.insert_value(to_ad, k)
-            arg_n += 1
-            arg.list_print()
-        if choice == 3:
-            return
+                4: 'Generate by iterator', 5: 'Generate by generator', 6: 'Exit'}
+question_options = {1: 'Delete on k position', 2: 'Insert in k position', 3: 'Exit'}
 
 
 def print_menu():
@@ -89,21 +10,78 @@ def print_menu():
         print(key, menu_options[key], sep='--')
 
 
+def question_delete_insert(arg: LinkedList):
+    while True:
+        for key in question_options:
+            print(key, question_options[key], sep=' : ')
+        option = check_if_numeric(input('Enter what you want: '))
+        if option == 1:
+            k = check_if_numeric(input('Enter an index: '))
+            arg.erase(k)
+            arg.output_list()
+        elif option == 2:
+            k = check_if_numeric(input('Enter an index: '))
+            new_value = check_if_integer(input('Enter a new value: '))
+            arg.insert(k, new_value)
+            arg.output_list()
+        elif option == 3:
+            return
+        else:
+            print('Invalid option. Please enter a number in range 1-3!')
+
+
 while True:
     print_menu()
-    option = check_if_numeric(input('Enter your choice: '))
-    if option == 1:
-        input_from_keyboard()
-    elif option == 2:
-        random_generate()
-    elif option == 3:
-        option11()
-    elif option == 4:
-        input_by_iterator()
-    elif option == 5:
-        generate_by_generator()
-    elif option == 6:
+    option_ = check_if_numeric(input('Enter your choice: '))
+    if option_ == 1:
+        n = check_if_numeric(input('Enter a dimension of list: '))
+        list_ = LinkedList()
+        print('Enter a list:')
+        list_.input_keyboard(n)
+        list_.output_list()
+        question_delete_insert(list_)
+    elif option_ == 2:
+        n = check_if_numeric(input('Enter a dimension of list: '))
+        list_ = LinkedList()
+        list_.generate_random(n)
+        list_.output_list()
+        question_delete_insert(list_)
+    elif option_ == 3:
+        n = check_if_numeric(input('Enter a dimension of list: '))
+        x = LinkedList()
+        y = LinkedList()
+        z = LinkedList()
+        print('Enter a list x: ')
+        x.input_keyboard(n)
+        print('Enter a list y: ')
+        y.input_keyboard(n)
+        print('Enter a list z: ')
+        z.input_keyboard(n)
+        max_value, max_idx = x.find_max()
+        idx_half = (n // 2)
+        k_ = check_if_integer(input('Enter K: '))
+        if max_value == k_ and y.is_negative() and max_idx < idx_half:
+            x.made_kub(max_idx)
+        print('Vector x: ', end=' ')
+        x.output_list()
+        print('Vector y: ', end=' ')
+        y.output_list()
+    elif option_ == 4:
+        x = LinkedList()
+        size = check_if_numeric(input('Enter a dimension: '))
+        a = check_if_integer(input('Enter a: '))
+        b = check_if_integer(input('Enter b: '))
+        x.generate_by_iterator(size, a, b)
+        x.output_list()
+    elif option_ == 5:
+        x = LinkedList()
+        size = check_if_numeric(input('Enter a dimension: '))
+        a = check_if_integer(input('Enter a: '))
+        b = check_if_integer(input('Enter b: '))
+        x.generate_elements(size, a, b)
+        x.output_list()
+    elif option_ == 6:
         print('Good luck, Bye!')
         exit()
     else:
-        print('Invalid option. Please enter a number in range 1-3')
+        print('Invalid option. Please enter a number in range 1-6!')
