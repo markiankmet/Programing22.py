@@ -11,8 +11,8 @@ def print_menu():
 
 
 def program():
-    path = 'data.txt'
-    collection_ = Collection(path)
+    file_name = input_file(input('Enter file: '))
+    collection_ = Collection(file_name)
     collection_.read_from_file()
     while True:
         print_menu()

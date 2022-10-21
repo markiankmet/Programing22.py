@@ -1,6 +1,4 @@
 from Car import *
-from os.path import exists
-import sys
 
 
 class Collection:
@@ -14,10 +12,11 @@ class Collection:
             text += str(item) + "\n"
         return text
 
-    def add(self):
-        new_request = Car()
-        new_request.input_data()
-        self.collection.append(new_request)
+    def add(self, new_car=None):
+        if new_car is None:
+            new_car = Car()
+            new_car.input_data()
+        self.collection.append(new_car)
         self.write_in_file()
         return self
 
@@ -28,18 +27,13 @@ class Collection:
         return self
 
     def read_from_file(self):
-        if exists(self.file_name):
-            file = open(self.file_name, 'r')
-            for i, line in enumerate(file):
-                data = line.split()
-                car = Car(*data)
-                self.collection.append(car)
-            self.write_in_file()
-            file.close()
-            return self
-        else:
-            print(f"{self.file_name} does not exists")
-            sys.exit()
+        file = open(self.file_name, 'r')
+        for i, line in enumerate(file):
+            data = line.split()
+            car = Car(*data)
+            self.collection.append(car)
+        self.write_in_file()
+        file.close()
 
     def remove(self, id_):
         for i in range(len(self.collection)):

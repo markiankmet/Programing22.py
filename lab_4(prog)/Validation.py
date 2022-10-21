@@ -1,5 +1,7 @@
 import datetime
 from functools import wraps
+import os
+import sys
 LIMIT_M = 1000000
 menu_fields = {1: "id_", 2: "brand", 3: "model", 4: "registration_number",
                5: "last_repaired_at", 6: "bought_at", 7: "car_mileage"}
@@ -99,6 +101,14 @@ def input_field(list_, field=None):
         print(f"This field doesn't exist! Try again!")
         return input_field(list_)
     return field
+
+
+def input_file(fl):
+    while True:
+        if os.path.isfile(fl) and fl.endswith(".txt"):
+            return fl
+        else:
+            fl = input("File name is incorrect. Try again: ")
 
 
 def check_if_numeric_(x):
