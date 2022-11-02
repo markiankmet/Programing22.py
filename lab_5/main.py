@@ -10,44 +10,41 @@ def print_menu():
 
 
 def program():
-    file_name = input_file(input('Enter file: '))
+    file_name = input_file(input('Enter a file: '))
     collection_ = Collection(file_name)
     collection_.read_from_file()
-    originator = Originator()
-    caretaker = CareTaker()
-    memento(originator, caretaker, collection_)
+    caretaker = CareTaker(collection_)
     while True:
         print_menu()
-        option = check_if_numeric_(input('Enter your choice: '))
+        option = check_if_numeric(input('Enter your choice: '))
         if option == 1:
             search_element = input('Enter what to search: ')
             collection_.search(search_element)
         elif option == 2:
+            caretaker.create()
             print_fields()
             field = input()
-            collection_.sort(field)
-            memento(originator, caretaker, collection_)
+            for fields in menu_fields:
+                if menu_fields[fields] == field:
+                    collection_.sort(field)
         elif option == 3:
-            id_ = check_if_numeric_(input('Enter id: '))
+            caretaker.create()
+            id_ = check_id(input('Enter id: '))
             collection_.remove(id_)
-            memento(originator, caretaker, collection_)
         elif option == 4:
+            caretaker.create()
             collection_.add()
-            memento(originator, caretaker, collection_)
         elif option == 5:
-            print_fields()
+            caretaker.create()
             collection_.edit_by_id()
-            memento(originator, caretaker, collection_)
         elif option == 6:
             print(collection_)
         elif option == 7:
-            originator.restore(caretaker.undo())
-            write_changes_after(originator, file_name)
-            collection_.read_from_file()
+            caretaker.undo()
+            collection_.write_in_file()
         elif option == 8:
-            originator.restore(caretaker.redo())
-            write_changes_after(originator, file_name)
-            collection_.read_from_file()
+            caretaker.redo()
+            collection_.write_in_file()
         elif option == 9:
             print('Good luck, Bye!')
             exit()
