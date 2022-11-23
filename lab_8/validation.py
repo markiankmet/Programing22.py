@@ -109,7 +109,10 @@ def check_password(func):
             raise ValidationError(f'{args[1]} - incorrect password, one digit!')
         if not any(x.isupper() for x in args[1]):
             raise ValidationError(f'{args[1]} - incorrect password, one upper!')
-        if not any(x.lower() for x in args[1]):
+        if not any(x.islower() for x in args[1]):
             raise ValidationError(f'{args[1]} - incorrect password, one lower!')
         return func(args[0], args[1])
     return wrapper
+
+# text = "MARIK"
+# print(any(x.islower() for x in text))

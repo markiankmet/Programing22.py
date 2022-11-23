@@ -194,6 +194,10 @@ def add_request3():
         if request.json["ID"] == elem.get_ID:
             return jsonify({'status': 404, "message": "user already exits"}), 404
     data = flask.request.get_json()
+    try:
+        User(data["ID"], data["first_name"], data["last_name"], data["email"], data["password"])
+    except ValidationError as error:
+        return jsonify({"status": 400, "message": str(error)}), 400
     hashed_password = generate_password_hash(data["password"], method="sha256")
     try:
         db.session.add(User(data["ID"], data["first_name"], data["last_name"], data["email"], hashed_password))
